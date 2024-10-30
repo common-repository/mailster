@@ -1,0 +1,71 @@
+{
+	"require": {
+		"php": "^7.0 || ^8.0",
+		"composer/installers": "^1.12.0"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^7.0",
+		"yoast/phpunit-polyfills": "^1.0.1",
+		"yoast/wp-test-utils": "^1.0.0",
+		"mockery/mockery": "1.2",
+		"brain/monkey": "2.*",
+		"pronamic/wp-documentor": "^1.2",
+		"wp-coding-standards/wpcs": "^3.0",
+		"dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+		"php-parallel-lint/php-parallel-lint": "^1.0"
+	},
+	"prefer-stable": true,
+	"autoload": {
+		"psr-4": {
+			"Mailster\\": "."
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Mailster\\Tests\\": "./tests"
+		}
+	},
+	"scripts": {
+		"test": "phpunit --config=phpunit-unit.xml",
+		"test:wordpress": "phpunit --config=phpunit-integration.xml",
+		"fix-cs": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf",
+		"lint": "@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --show-deprecated --exclude vendor --exclude node_modules --exclude .git",
+		"lint": [
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --show-deprecated --exclude vendor --exclude .git"
+		],
+		"check-cs": [
+			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs"
+		],
+		"fix-cs": [
+			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
+		],
+		"run-tests": [
+			"@php ./vendor/phpunit/phpunit/phpunit --filter WordPress ./vendor/squizlabs/php_codesniffer/tests/AllTests.php --no-coverage"
+		],
+		"coverage": [
+			"@php ./vendor/phpunit/phpunit/phpunit --filter WordPress ./vendor/squizlabs/php_codesniffer/tests/AllTests.php"
+		],
+		"check-complete": [
+			"@php ./vendor/phpcsstandards/phpcsdevtools/bin/phpcs-check-feature-completeness -q ./WordPress"
+		],
+		"check-complete-strict": [
+			"@php ./vendor/phpcsstandards/phpcsdevtools/bin/phpcs-check-feature-completeness ./WordPress"
+		],
+		"check-all": [
+			"@lint",
+			"@check-cs",
+			"@run-tests",
+			"@check-complete-strict"
+		]
+	},
+	"config": {
+		"platform": {
+			"php": "7.4"
+		},
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"composer/installers": true,
+			"php-parallel-lint/php-parallel-lint": true
+		}
+	}
+}
